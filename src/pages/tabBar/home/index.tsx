@@ -68,8 +68,7 @@ class HomePage extends Component<HomeProps, HomeState> {
           <View className='home-search-wrapper'>
             <View
               className='home-search-wrapper-content'
-              onClick={this.jumpSearchHandle.bind(
-                this)}
+              onClick={this.jumpSearchHandle.bind(this)}
             >
               <Icon name='sousuo' size={14} color='#fff' />
               <Text className='home-search-wrapper--text'>京东宝贝链接、淘口令</Text>

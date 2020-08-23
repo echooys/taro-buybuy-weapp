@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'sss'
+  navigationBarTitleText: '85买卖网'
 }

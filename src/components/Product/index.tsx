@@ -1,11 +1,13 @@
 import React from 'react'
+import Taro from '@tarojs/taro'
 import PropTypes, { InferProps } from 'prop-types'
 import { Image, Text, View } from '@tarojs/components'
 
 import './index.less'
 
 interface ProductProps {
-  sourceData: any
+  sourceData: any,
+  isIcon: boolean
 }
 
 interface ProductState {
@@ -16,20 +18,28 @@ class Product extends React.Component<ProductProps, ProductState> {
   public static defaultProps: ProductProps
   public static propTypes: InferProps<ProductProps>
 
+  jumpProductDetails (item) {
+    Taro.navigateTo({
+      url: `/pages/product/details/index?spuId=${item.spuId}&type=${item.source}`
+    })
+  }
+
   render (): JSX.Element {
-    const { sourceData } = this.props
+    const { sourceData, isIcon } = this.props
     return (
-      <View className='product'>
-        <Image src={sourceData.imgUrl} mode='aspectFill' className='product-image' />
+      <View className='product' onClick={this.jumpProductDetails.bind(this, sourceData)}>
+        <Image src={sourceData.imgUrl} mode='aspectFit' className='product-image' />
         <View className='product-title'>{sourceData.name}</View>
         <View className='product-level'>
-          <Text className='product-level-label'>银牌</Text>
+          {sourceData.source && (
+            <Text className='product-level-label'>{sourceData.source}</Text>
+          )}
         </View>
         <View className='product-price'>
           <Text className='product-price-after'>￥</Text>
           <Text className='product-price-number'>{sourceData.price}</Text>
         </View>
-        <View className='product-hot-icon' />
+        {isIcon && <View className='product-hot-icon' />}
       </View>
     )
   }
@@ -40,11 +50,13 @@ Product.defaultProps = {
     imgUrl: '',
     name: '',
     price: ''
-  }
+  },
+  isIcon: true
 }
 
 Product.propTypes = {
-  sourceData: PropTypes.object
+  sourceData: PropTypes.object,
+  isIcon: PropTypes.bool
 }
 
 export default Product

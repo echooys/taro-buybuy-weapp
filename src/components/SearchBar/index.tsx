@@ -42,7 +42,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
 
   componentDidUpdate (prevProps): void {
     if (prevProps.value !== this.props.value) {
-      this.changeValue(prevProps)
+      this.changeValue(this.props)
     }
   }
 
@@ -65,8 +65,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   handleSubmit () {
     const { value } = this.state
     if (!value) {
-      Taro.showToast({ title: '请输入搜索内容！', icon: 'none' }).
-        finally(() => {})
+      Taro.showToast({ title: '请输入搜索内容！', icon: 'none' }).finally(() => {})
       return
     }
     const list = getStorage('searchList')

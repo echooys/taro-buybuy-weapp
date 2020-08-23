@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { ScrollView, View, Text } from '@tarojs/components'
 import Page from '_/components/Page'
 import SearchBar from '_/components/SearchBar'
-import { hotSearchKeyWords } from '_/api/search'
+import { hotSearchKeyWords } from '_/api/common'
 import { getStorage } from '_/utils/storage'
 
 import './index.less'

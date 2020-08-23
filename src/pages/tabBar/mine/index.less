@@ -1,0 +1,58 @@
+.mine-user-wrapper {
+  background-image: url("../../../assets/common/my-bg.png");
+  width: 100%;
+  height: 480px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.user-member-wrapper {
+  background-color: #fff;
+  min-height: 300px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  margin-top: -40px;
+}
+
+.struct {
+  &-wrapper {
+    margin-top: 20px;
+  }
+
+  &-item {
+    padding: 0 20px;
+    background-color: #fff;
+    transition: all .3s;
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &:last-child .struct-item__content {
+      border: none;
+    }
+
+    &__content {
+      padding: 38px 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #E6E6E6;
+    }
+
+    &__text {
+      color: #32373D;
+      font-size: 28px;
+      margin-left: 20px;
+      font-weight: 600;
+    }
+
+    &__money {
+      font-size: 30px;
+      color: #FA6400;
+      margin-right: 20px;
+    }
+  }
+
+}

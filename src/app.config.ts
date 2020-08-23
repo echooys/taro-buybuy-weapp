@@ -8,7 +8,8 @@ export default {
     {
       root: 'pages/product/',
       pages: [
-        'list/index'
+        'list/index',
+        'details/index'
       ]
     }
   ],
