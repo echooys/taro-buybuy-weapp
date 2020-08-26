@@ -40,7 +40,11 @@ class Search extends React.Component<boolean, any> {
   handleSearch (key) {
     Taro.navigateTo({
       url: '/pages/product/list/index?key=' + key
-    }).finally(() => {})
+    }).finally()
+  }
+
+  handleCloseSearchList () {
+    Taro.setStorageSync('searchList', undefined)
   }
 
   render () {
@@ -50,7 +54,15 @@ class Search extends React.Component<boolean, any> {
         <View className='page-view search-page'>
           <SearchBar onSubmit={this.handleSearch.bind(this)} />
           <ScrollView className='page-scroll' scrollY>
-            <View className='search-content-title'>搜索历史</View>
+            <View className='search-content-title'>
+              搜索历史
+              <Text
+                className='search-content-close'
+                onClick={this.handleCloseSearchList.bind(this)}
+              >
+                清空搜索记录
+              </Text>
+            </View>
             <View className='search-content-list'>
               {historyList.map((item, key) => {
                 return (
@@ -62,6 +74,9 @@ class Search extends React.Component<boolean, any> {
                   </Text>
                 )
               })}
+              {!historyList.length && (
+                <Text className='search-content-not-data'>暂无搜索记录！</Text>
+              )}
             </View>
             <View className='search-content-title'>热门搜索</View>
             <View className='search-content-list'>

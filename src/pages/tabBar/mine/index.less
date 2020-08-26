@@ -1,22 +1,133 @@
-.mine-user-wrapper {
-  background-image: url("../../../assets/common/my-bg.png");
-  width: 100%;
-  height: 480px;
-  background-size: 100%;
-  background-repeat: no-repeat;
+.mine-user {
+  &-wrapper {
+    background-image: url("../../../assets/common/my-bg.png");
+    width: 100%;
+    height: 480px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    padding-top: 120px;
+  }
+
+  &--content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+  }
+
+  &--avatar {
+    width: 120px;
+    height: 120px;
+    margin-top: 20px;
+    border-radius: 60px;
+  }
+
+  &--userName {
+    font-size: 36px;
+    color: #fff;
+    line-height: 1;
+    margin-top: 20px;
+  }
+
+  &--level {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    &-vip {
+      background-size: 100%;
+      background-repeat: no-repeat;
+      width: 30px;
+      height: 30px;
+      background-image: url("../../../assets/common/vip-icon.png");
+
+      &.v1 {
+        background-image: url("../../../assets/common/v1-icon.png");
+      }
+
+      &.v2 {
+        background-image: url("../../../assets/common/v2-icon.png");
+      }
+
+      &.v3 {
+        background-image: url("../../../assets/common/v3-icon.png");
+      }
+    }
+
+    &-text {
+      color: #FFEDC3;
+      font-size: 24px;
+      margin-left: 20px;
+    }
+  }
 }
 
-.user-member-wrapper {
-  background-color: #fff;
-  min-height: 300px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  margin-top: -40px;
+.user-member {
+  &-wrapper {
+    background-color: #fff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -40px;
+    padding: 0 30px 30px;
+  }
+
+  &--item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 30px;
+
+    &-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+
+    &-title {
+      color: #32373D;
+      font-size: 32px;
+      font-weight: 600;
+      margin-left: 10px;
+      line-height: 1;
+    }
+
+    &-icon {
+      font-weight: 600;
+    }
+
+    &-progress {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    &-time {
+      font-size: 28px;
+      color: #ABAABA;
+    }
+
+    &-left {
+      align-self: center;
+    }
+
+    &-desc {
+      color: #ABAABA;
+      font-size: 24px;
+    }
+  }
 }
 
 .struct {
   &-wrapper {
     margin-top: 20px;
+    margin-bottom: 40px;
   }
 
   &-item {

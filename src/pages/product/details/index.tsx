@@ -1,6 +1,13 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { ScrollView, View, Swiper, SwiperItem, Image, Text, RichText } from '@tarojs/components'
+import {
+  ScrollView,
+  View,
+  Swiper,
+  SwiperItem,
+  Image,
+  Text
+} from '@tarojs/components'
 import Page from '_/components/Page'
 import { getGoodsDetails } from '_/api/common'
 
@@ -11,6 +18,7 @@ interface DetailInfo {
   name: string
   picUrl: string
   description: string
+  descImgs: string[]
   imgUrlList: any[]
   skuList: any[]
   skuPrice: any[]
@@ -37,9 +45,10 @@ class ProductDetails extends React.Component<any, DetailState> {
   componentDidMount (): void {
     const router = Taro.getCurrentInstance().router
     if (router?.params.spuId && router?.params.type) {
-      this.setState({ spuId: router.params.spuId, type: router.params.type }, () => {
-        this.initGoodsDetail(this.state.spuId, this.state.type)
-      })
+      this.setState({ spuId: router.params.spuId, type: router.params.type },
+        () => {
+          this.initGoodsDetail(this.state.spuId, this.state.type)
+        })
     }
   }
 
@@ -85,7 +94,11 @@ class ProductDetails extends React.Component<any, DetailState> {
             </View>
             <View className='goods-detail'>
               <View className='goods-detail--title'>商品详情</View>
-              <RichText nodes={detail?.description} />
+              {detail?.descImgs.map((item, key) => {
+                return (
+                  <Image src={item} mode='widthFix' key={key} className='goods-detail--img' />
+                )
+              })}
             </View>
           </ScrollView>
         </View>

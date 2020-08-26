@@ -19,6 +19,7 @@ interface HomeState {
   list: any[],
   page: number,
   loading: boolean,
+  pageSize: number
   finished: boolean
 }
 
@@ -29,7 +30,8 @@ class HomePage extends Component<HomeProps, HomeState> {
       list: [],
       loading: false,
       finished: true,
-      page: 1
+      page: 1,
+      pageSize: 10
     }
   }
 
@@ -38,12 +40,12 @@ class HomePage extends Component<HomeProps, HomeState> {
   }
 
   load () {
-    const { page, finished } = this.state
+    const { page, pageSize, finished } = this.state
     if (!finished) {
       return
     }
     this.setState({ loading: true })
-    getHomeHotProduct(page).then(res => {
+    getHomeHotProduct(page, pageSize).then(res => {
       const { result, data } = res
       if (result === 'ok') {
         this.setState({

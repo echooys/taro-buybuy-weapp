@@ -10,11 +10,7 @@ interface ProductProps {
   isIcon: boolean
 }
 
-interface ProductState {
-
-}
-
-class Product extends React.Component<ProductProps, ProductState> {
+class Product extends React.Component<ProductProps, any> {
   public static defaultProps: ProductProps
   public static propTypes: InferProps<ProductProps>
 
@@ -27,7 +23,8 @@ class Product extends React.Component<ProductProps, ProductState> {
   render (): JSX.Element {
     const { sourceData, isIcon } = this.props
     return (
-      <View className='product' onClick={this.jumpProductDetails.bind(this, sourceData)}>
+      <View className='product' onClick={this.jumpProductDetails.bind(this,
+        sourceData)}>
         <Image src={sourceData.imgUrl} mode='aspectFit' className='product-image' />
         <View className='product-title'>{sourceData.name}</View>
         <View className='product-level'>

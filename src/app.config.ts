@@ -2,7 +2,8 @@ export default {
   pages: [
     'pages/tabBar/home/index',
     'pages/tabBar/mine/index',
-    'pages/search/index'
+    'pages/search/index',
+    'pages/auth/index'
   ],
   subpackages: [
     {
