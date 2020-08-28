@@ -49,10 +49,10 @@ class HomePage extends Component<HomeProps, HomeState> {
       const { result, data } = res
       if (result === 'ok') {
         this.setState({
-          list: data.items,
+          list: data.goodsInfoList,
           loading: false,
           page: page + 1,
-          finished: data.items.length === Number(data.pageInfo.pageSize)
+          finished: data.goodsInfoList.length === Number(data.pageInfo.pageSize)
         })
       }
     })

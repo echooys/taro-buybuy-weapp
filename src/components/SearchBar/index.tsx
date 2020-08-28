@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { Input, Text, View } from '@tarojs/components'
 import PropTypes from 'prop-types'
 import Icon from '_/components/Icon'
-import { getStorage, setStorage } from '_/utils/storage'
+import { put, get } from '_/utils/storage'
 
 import './index.less'
 
@@ -68,13 +68,13 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
       Taro.showToast({ title: '请输入搜索内容！', icon: 'none' }).finally(() => {})
       return
     }
-    const list = getStorage('searchList')
+    const list = get('searchList')
     const filterList = list.split('---')
     if (!filterList.includes(value)) {
       filterList.push(value)
     }
 
-    setStorage('searchList', filterList.join('---'))
+    put('searchList', filterList.join('---'), 100000000)
 
     this.props.onSubmit && this.props.onSubmit(value)
   }

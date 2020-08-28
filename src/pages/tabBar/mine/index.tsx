@@ -1,34 +1,53 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
+import { connect } from 'react-redux'
 import { ScrollView, View, Text, Progress, Image } from '@tarojs/components'
-
 import TabBar from '_/components/TabBar'
 import Icon from '_/components/Icon'
 import Page from '_/components/Page'
 import CustomNavBar from '_/components/CustomNavBar'
+import { get } from '_/utils/storage'
+import { asyncGetUserInfo } from '_/store/actions/user'
 
 import './index.less'
 
-interface HomeProps {
+interface PageMineProps {
+  getUserInfo: () => void,
+  user: any
 }
 
-interface HomeState {
+interface PageMineState {
 }
 
-class MinePage extends Component<HomeProps, HomeState> {
+@connect(({ user }) => ({
+  user
+}), (dispatch) => ({
+  getUserInfo () {
+    dispatch(asyncGetUserInfo())
+  }
+}))
+class MinePage extends Component<PageMineProps, PageMineState> {
   constructor (props) {
     super(props)
     this.state = {}
   }
 
+  componentDidMount (): void {
+    if (get('token')) {
+      this.props.getUserInfo()
+    }
+  }
+
   componentDidShow () {
-    if (!Taro.getStorageSync('token')) {
+    if (!get('token')) {
       //TODO-- 跳转登陆
-      // Taro.navigateTo({ url: '/pages/auth/index' }).finally()
+      Taro.navigateTo({ url: '/pages/auth/index' }).finally()
     }
   }
 
   render (): JSX.Element {
+    const { user } = this.props
+    console.log(user)
     return (
       <Page>
         <CustomNavBar title='我的' backgroundColor='rgba(0,0,0,0)'>

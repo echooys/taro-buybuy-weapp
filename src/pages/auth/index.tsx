@@ -1,6 +1,9 @@
 import React from 'react'
+import Taro from '@tarojs/taro'
 import { ScrollView, View, OpenData, Button } from '@tarojs/components'
 import Page from '_/components/Page'
+import { userAuth } from '_/api/user'
+import { put } from '_/utils/storage'
 
 import './index.less'
 
@@ -18,7 +21,20 @@ class AuthPage extends React.Component<any, any> {
     if (detail['errMsg'] === 'getUserInfo:ok') {
       Taro.login({
         success: ({ code }) => {
-          console.log(code)
+          Taro.showLoading({
+            title: '登录中...',
+            mask: true
+          })
+          // 使用code 登录
+          userAuth(code, 'wxf4aab3a69d357020').then(res => {
+            const { data: { token, expTime }, result } = res
+            if (result === 'ok') {
+              put('token', token, expTime)
+              Taro.navigateBack()
+            }
+          }).finally(() => {
+            Taro.hideLoading()
+          })
         }
       })
     } else {

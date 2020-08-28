@@ -6,14 +6,14 @@ import { ScrollView, View, Text } from '@tarojs/components'
 import Page from '_/components/Page'
 import SearchBar from '_/components/SearchBar'
 import { hotSearchKeyWords } from '_/api/common'
-import { getStorage } from '_/utils/storage'
+import { get } from '_/utils/storage'
 
 import './index.less'
 
 class Search extends React.Component<boolean, any> {
   constructor (props) {
     super(props)
-    const list = getStorage('searchList').
+    const list = get('searchList').
       split('---').
       filter(item => !!item).
       reverse()

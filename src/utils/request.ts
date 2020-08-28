@@ -2,20 +2,21 @@ import Taro from '@tarojs/taro'
 import { noConsole, mainHost, commonHeader } from '_/config'
 import { HTTP_STATUS } from '_/utils/httpStatus'
 import { logError } from '_/utils/common'
+import * as storage from '_/utils/storage'
 
 export default function http (options: Taro.request.Option) {
   if (!noConsole) {
     console.log(`【 M=${options.url}】P=${JSON.stringify(options.data)}`)
   }
   // 请求携带token
-  const _token = Taro.getStorageSync('token')
+  const _token = storage.get('token')
   return Taro.request({
     url: mainHost + options.url,
     data: options.data,
     header: {
       ...commonHeader,
       'Content-Type': 'application/json',
-      'Authorization': _token
+      'jwt-auth': _token
     },
     method: options.method
   }).then((res) => {
