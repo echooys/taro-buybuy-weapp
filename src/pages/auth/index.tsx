@@ -18,6 +18,7 @@ class AuthPage extends React.Component<any, any> {
    * @param data
    */
   onGotUserInfo = ({ detail }) => {
+    console.log(detail)
     if (detail['errMsg'] === 'getUserInfo:ok') {
       Taro.login({
         success: ({ code }) => {
@@ -29,8 +30,8 @@ class AuthPage extends React.Component<any, any> {
           userAuth(code, 'wxf4aab3a69d357020').then(res => {
             const { data: { token, expTime }, result } = res
             if (result === 'ok') {
-              put('token', token, expTime)
-              Taro.navigateBack()
+              put('token', token, expTime / 1000)
+              Taro.navigateBack().finally()
             }
           }).finally(() => {
             Taro.hideLoading()

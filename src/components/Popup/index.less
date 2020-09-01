@@ -1,0 +1,67 @@
+.popup {
+  position: fixed;
+  box-sizing: border-box;
+  max-height: 100%;
+  -webkit-overflow-scrolling: touch;
+  background-color: #fff;
+  z-index: 999;
+
+  &--center {
+    top: 50%;
+    left: 50%;
+
+    &.popup--round {
+      border-radius: 20px;
+    }
+  }
+
+  &--top {
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    &.popup--round {
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+  }
+
+  &--right {
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    &.popup--round {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+  }
+
+  &--bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    &.popup--round {
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+
+  &--left {
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    &.popup--round {
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+
+  &--close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}

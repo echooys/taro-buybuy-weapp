@@ -2,7 +2,7 @@
  * 正式环境
  * @product {string}
  */
-export const pdv = 'https://mini.huimi360.com'
+export const pdv = 'http://161.189.105.208:8082'
 /**
  * 测试环境
  */

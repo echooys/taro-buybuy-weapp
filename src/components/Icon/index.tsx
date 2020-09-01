@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react'
 import classNames from 'classnames'
 import PropTypes, { InferProps } from 'prop-types'
-import { CommonEventFunction, Text } from '@tarojs/components'
+import { CommonEvent, CommonEventFunction, Text } from '@tarojs/components'
 import { pxTransform, objectToString } from '_/utils/utils'
 
 import './index.less'
@@ -41,8 +41,8 @@ class Icon extends React.Component<IconProps, any> {
     return objectToString(style1) + objectToString(style2)
   }
 
-  private handleClick (): void {
-    this.props.onClick && this.props.onClick(arguments as any)
+  private handleClick (e: CommonEvent): void {
+    this.props.onClick && this.props.onClick(e)
   }
 
   render (): JSX.Element {

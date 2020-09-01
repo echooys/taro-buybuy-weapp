@@ -7,26 +7,27 @@ import Icon from '_/components/Icon'
 import Page from '_/components/Page'
 import CustomNavBar from '_/components/CustomNavBar'
 import { get } from '_/utils/storage'
-import { asyncGetUserInfo } from '_/store/actions/user'
+import { setUserInfo, setUserCenter } from '_/store/actions/user'
 
 import './index.less'
 
 interface PageMineProps {
   getUserInfo: () => void,
+  getUserCenter: (data: any) => void,
   user: any
-}
-
-interface PageMineState {
 }
 
 @connect(({ user }) => ({
   user
 }), (dispatch) => ({
   getUserInfo () {
-    dispatch(asyncGetUserInfo())
+    dispatch(setUserInfo())
+  },
+  getUserCenter (data) {
+    dispatch(setUserCenter(data))
   }
 }))
-class MinePage extends Component<PageMineProps, PageMineState> {
+class MinePage extends Component<PageMineProps, any> {
   constructor (props) {
     super(props)
     this.state = {}
@@ -40,8 +41,22 @@ class MinePage extends Component<PageMineProps, PageMineState> {
 
   componentDidShow () {
     if (!get('token')) {
-      //TODO-- 跳转登陆
-      Taro.navigateTo({ url: '/pages/auth/index' }).finally()
+      Taro.getSetting({}).then(res => {
+        if (res.authSetting['scope.userInfo']) {
+          this.props.getUserInfo()
+          Taro.getUserInfo().then(data => {
+            this.props.getUserCenter(data)
+          })
+        } else {
+          //TODO-- 跳转登陆
+          Taro.navigateTo({ url: '/pages/auth/index' }).finally()
+        }
+      })
+    } else {
+      this.props.getUserInfo()
+      Taro.getUserInfo().then(data => {
+        this.props.getUserCenter(data)
+      })
     }
   }
 

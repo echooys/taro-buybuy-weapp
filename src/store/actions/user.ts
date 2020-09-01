@@ -1,17 +1,27 @@
-import { GET_USER_INFO } from '_/store/constants/user'
+import { SET_USER_INFO, SET_USER_CENTER } from '_/store/constants/user'
 import { getUserInfo } from '_/api/user'
 
-export const changeInfo = (info) => {
-  return {
-    type: GET_USER_INFO,
-    data: info
+/**
+ * 设置用户个人信息
+ */
+export function setUserInfo () {
+  return dispatch => {
+    getUserInfo().then(res => {
+      dispatch({
+        type: SET_USER_INFO,
+        data: res.data
+      })
+    })
   }
 }
 
-export function asyncGetUserInfo () {
-  return dispatch => {
-    getUserInfo().then(res => {
-      dispatch(changeInfo(res.data))
-    })
+/**
+ * 设置用户个人中心信息
+ * @param data
+ */
+export function setUserCenter (data) {
+  return {
+    type: SET_USER_CENTER,
+    data: data
   }
 }

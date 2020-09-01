@@ -29,7 +29,6 @@ function get (k) {
   if (deadTime) {
     if (parseInt(String(deadTime)) < Date.parse(String(new Date())) / 1000) {
       Taro.removeStorageSync(k)
-      console.log('过期了')
       return null
     }
   }

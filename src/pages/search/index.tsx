@@ -13,10 +13,11 @@ import './index.less'
 class Search extends React.Component<boolean, any> {
   constructor (props) {
     super(props)
-    const list = get('searchList').
-      split('---').
-      filter(item => !!item).
-      reverse()
+    let list = []
+    const searchList = get('searchList')
+    if (searchList) {
+      list = searchList.split('---').filter(item => !!item).reverse()
+    }
     this.state = {
       historyList: list,
       hotKeyWords: []
