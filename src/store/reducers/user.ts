@@ -1,8 +1,29 @@
 import { SET_USER_INFO, SET_USER_CENTER } from '_/store/constants/user'
 
 const INITIAL_STATE = {
-  userInfo: {},
-  userCenter: {}
+  userInfo: {
+    avatarUrl: '',
+    nickName: ''
+  },
+  userCenter: {
+    userLevel: {
+      levelCode: '',
+      expTime: '',
+      description: '',
+      progressBar: ''
+    },
+    taskInfo: {
+      name: '',
+      description: '',
+      progressBar: ''
+    },
+    walletInfo: {
+      money: 0
+    },
+    couponInfo: {
+      description: ''
+    }
+  }
 }
 
 export default function user (state = INITIAL_STATE, action) {

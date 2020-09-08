@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
+import PropTypes, { InferProps } from 'prop-types'
 import { ScrollView, View, Text, Progress, Image } from '@tarojs/components'
 import TabBar from '_/components/TabBar'
 import Icon from '_/components/Icon'
@@ -12,30 +13,79 @@ import { setUserInfo, setUserCenter } from '_/store/actions/user'
 import './index.less'
 
 interface PageMineProps {
-  getUserInfo: () => void,
-  getUserCenter: (data: any) => void,
-  user: any
+  getUserInfo: (data: any) => void,
+  getUserCenter: () => void,
+  user: User
+}
+
+interface User {
+  userInfo: {
+    avatarUrl: string,
+    nickName: string
+  },
+  userCenter: UserCenter
+}
+
+interface UserCenter {
+  userLevel: userLevel,
+  taskInfo: taskInfo,
+  walletInfo: walletInfo,
+  couponInfo: couponInfo
+}
+
+interface userLevel {
+  levelCode: string,
+  expTime: string,
+  description: string,
+  progressBar: string
+}
+
+interface walletInfo {
+  money: number
+}
+
+interface couponInfo {
+  description: string
+}
+
+interface taskInfo {
+  name: string,
+  description: string,
+  progressBar: string
+}
+
+interface PageMineState {
+  levelCode: object
 }
 
 @connect(({ user }) => ({
   user
 }), (dispatch) => ({
-  getUserInfo () {
-    dispatch(setUserInfo())
+  getUserInfo (data) {
+    dispatch(setUserInfo(data))
   },
-  getUserCenter (data) {
-    dispatch(setUserCenter(data))
+  getUserCenter () {
+    dispatch(setUserCenter())
   }
 }))
-class MinePage extends Component<PageMineProps, any> {
+class MinePage extends Component<PageMineProps, PageMineState> {
+  public static defaultProps: PageMineProps
+  public static propTypes: InferProps<PageMineProps>
+
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      levelCode: {
+        sliver: '白银会员',
+        gold: '黄金会员',
+        diamond: '钻石会员'
+      }
+    }
   }
 
   componentDidMount (): void {
     if (get('token')) {
-      this.props.getUserInfo()
+      this.props.getUserCenter()
     }
   }
 
@@ -43,9 +93,9 @@ class MinePage extends Component<PageMineProps, any> {
     if (!get('token')) {
       Taro.getSetting({}).then(res => {
         if (res.authSetting['scope.userInfo']) {
-          this.props.getUserInfo()
-          Taro.getUserInfo().then(data => {
-            this.props.getUserCenter(data)
+          this.props.getUserCenter()
+          Taro.getUserInfo().then(({ userInfo }) => {
+            this.props.getUserInfo(userInfo)
           })
         } else {
           //TODO-- 跳转登陆
@@ -53,16 +103,25 @@ class MinePage extends Component<PageMineProps, any> {
         }
       })
     } else {
-      this.props.getUserInfo()
-      Taro.getUserInfo().then(data => {
-        this.props.getUserCenter(data)
+      this.props.getUserCenter()
+      Taro.getUserInfo().then(({ userInfo }) => {
+        this.props.getUserInfo(userInfo)
       })
     }
   }
 
   render (): JSX.Element {
-    const { user } = this.props
-    console.log(user)
+    const {
+      user: {
+        userInfo, userCenter: {
+          userLevel,
+          taskInfo,
+          couponInfo,
+          walletInfo
+        }
+      }
+    } = this.props
+    const { levelCode } = this.state
     return (
       <Page>
         <CustomNavBar title='我的' backgroundColor='rgba(0,0,0,0)'>
@@ -72,14 +131,14 @@ class MinePage extends Component<PageMineProps, any> {
             <View className='mine-user-wrapper'>
               <View className='mine-user--content'>
                 <Image
-                  src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2077888661,2651676535&fm=26&gp=0.jpg'
+                  src={userInfo.avatarUrl}
                   className='mine-user--avatar'
                   mode='aspectFit'
                 />
-                <Text className='mine-user--userName'>pandora1699</Text>
+                <Text className='mine-user--userName'>{userInfo.nickName}</Text>
                 <View className='mine-user--level'>
                   <View className='mine-user--level-vip v2' />
-                  <Text className='mine-user--level-text'>创客：钻石会员</Text>
+                  <Text className='mine-user--level-text'>创客：{levelCode[userLevel.levelCode] || '普通用户'}</Text>
                 </View>
               </View>
             </View>
@@ -90,12 +149,12 @@ class MinePage extends Component<PageMineProps, any> {
                     <Icon name='huiyuan' size={20} className='user-member--item-icon' color='#FA6400' />
                     <Text className='user-member--item-title'>会员有效期</Text>
                   </View>
-                  <Text className='user-member--item-time'>09.28</Text>
+                  <Text className='user-member--item-time'>{userLevel.expTime || '永久有效'}</Text>
                 </View>
-                <Text className='user-member--item-desc'>还差3位分享升级下一等级-黄金会员</Text>
+                <Text className='user-member--item-desc'>{userLevel.description}</Text>
                 <Progress
                   className='user-member--item-progress'
-                  percent={50}
+                  percent={Number(userLevel.progressBar.replace('%', ''))}
                   borderRadius={4}
                   color='#E6E6E6'
                   activeColor='#FA6400'
@@ -106,13 +165,13 @@ class MinePage extends Component<PageMineProps, any> {
                 <View className='user-member--item-header'>
                   <View className='user-member--item-left'>
                     <Icon name='renwu' size={20} className='user-member--item-icon' color='#FA6400' />
-                    <Text className='user-member--item-title'>任务</Text>
+                    <Text className='user-member--item-title'>{taskInfo.name}</Text>
                   </View>
                 </View>
-                <Text className='user-member--item-desc'>当前进度，完成有效分享5人领取65神券</Text>
+                <Text className='user-member--item-desc'>{taskInfo.description}</Text>
                 <Progress
                   className='user-member--item-progress'
-                  percent={50}
+                  percent={Number(taskInfo.progressBar.replace('%', ''))}
                   borderRadius={4}
                   color='#E6E6E6'
                   activeColor='#FA6400'
@@ -139,7 +198,7 @@ class MinePage extends Component<PageMineProps, any> {
                     <Text className='struct-item__text'>我的佣金</Text>
                   </View>
                   <View className='struct-item__right'>
-                    <Text className='struct-item__money'>￥2345.00元</Text>
+                    <Text className='struct-item__money'>￥{walletInfo.money.toFixed(2)}元</Text>
                     <Icon name='more' size='14' color='#E6E6E6' />
                   </View>
                 </View>
@@ -151,7 +210,7 @@ class MinePage extends Component<PageMineProps, any> {
                     <Text className='struct-item__text'>我的神卷</Text>
                   </View>
                   <View className='struct-item__right'>
-                    <Text className='struct-item__money'>当前可享65神卷</Text>
+                    <Text className='struct-item__money'>{couponInfo.description}</Text>
                     <Icon name='more' size='14' color='#E6E6E6' />
                   </View>
                 </View>
@@ -174,6 +233,39 @@ class MinePage extends Component<PageMineProps, any> {
       </Page>
     )
   }
+}
+
+MinePage.defaultProps = {
+  user: {
+    userInfo: {
+      avatarUrl: '',
+      nickName: ''
+    },
+    userCenter: {
+      userLevel: {
+        levelCode: '',
+        expTime: '',
+        description: '',
+        progressBar: ''
+      },
+      taskInfo: {
+        name: '',
+        description: '',
+        progressBar: ''
+      },
+      walletInfo: {
+        money: 0
+      },
+      couponInfo: {
+        description: ''
+      }
+    }
+  },
+  getUserInfo: () => {},
+  getUserCenter: () => {},
+}
+MinePage.propTypes = {
+  user: PropTypes.object
 }
 
 export default MinePage
