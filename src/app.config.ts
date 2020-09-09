@@ -12,6 +12,22 @@ export default {
         'list/index',
         'details/index'
       ]
+    },
+    {
+      root: 'pages/order/',
+      pages: [
+        'created/index'
+      ]
+    },
+    {
+      root: 'pages/personal/',
+      pages: [
+        'qrCode/index',
+        'coupon/index',
+        'address/index',
+        'addressManager/index',
+        'help/index'
+      ]
     }
   ],
   tabBar: {

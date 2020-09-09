@@ -1,4 +1,5 @@
 import http from '_/utils/request'
+import { appId } from '_/config/config'
 
 /**
  * 授权登录
@@ -18,6 +19,13 @@ export function userAuth (code: string, appId: string) {
 export function getUserInfo () {
   return http({
     url: '/user/center',
+    method: 'GET'
+  })
+}
+
+export function getQrCode () {
+  return http({
+    url: '/user/center/qrcode/' + appId,
     method: 'GET'
   })
 }

@@ -4,6 +4,7 @@ import { ScrollView, View, OpenData, Button } from '@tarojs/components'
 import Page from '_/components/Page'
 import { userAuth } from '_/api/user'
 import { put } from '_/utils/storage'
+import { appId } from '_/config/config'
 
 import './index.less'
 
@@ -27,7 +28,7 @@ class AuthPage extends React.Component<any, any> {
             mask: true
           })
           // 使用code 登录
-          userAuth(code, 'wxf4aab3a69d357020').then(res => {
+          userAuth(code, appId).then(res => {
             const { data: { token, expTime }, result } = res
             if (result === 'ok') {
               put('token', token, expTime / 1000)

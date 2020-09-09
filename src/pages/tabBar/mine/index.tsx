@@ -9,6 +9,8 @@ import Page from '_/components/Page'
 import CustomNavBar from '_/components/CustomNavBar'
 import { get } from '_/utils/storage'
 import { setUserInfo, setUserCenter } from '_/store/actions/user'
+import getSysInfo, { SystemInfoFace } from '_/utils/getSysInfo'
+import { toRouter } from '_/utils/common'
 
 import './index.less'
 
@@ -27,35 +29,28 @@ interface User {
 }
 
 interface UserCenter {
-  userLevel: userLevel,
-  taskInfo: taskInfo,
-  walletInfo: walletInfo,
-  couponInfo: couponInfo
-}
-
-interface userLevel {
-  levelCode: string,
-  expTime: string,
-  description: string,
-  progressBar: string
-}
-
-interface walletInfo {
-  money: number
-}
-
-interface couponInfo {
-  description: string
-}
-
-interface taskInfo {
-  name: string,
-  description: string,
-  progressBar: string
+  userLevel: {
+    levelCode: string,
+    expTime: string,
+    description: string,
+    progressBar: string
+  },
+  taskInfo: {
+    name: string,
+    description: string,
+    progressBar: string
+  },
+  walletInfo: {
+    money: number
+  },
+  couponInfo: {
+    description: string
+  }
 }
 
 interface PageMineState {
-  levelCode: object
+  levelCode: object,
+  info: SystemInfoFace
 }
 
 @connect(({ user }) => ({
@@ -79,7 +74,8 @@ class MinePage extends Component<PageMineProps, PageMineState> {
         sliver: '白银会员',
         gold: '黄金会员',
         diamond: '钻石会员'
-      }
+      },
+      info: getSysInfo()
     }
   }
 
@@ -121,14 +117,16 @@ class MinePage extends Component<PageMineProps, PageMineState> {
         }
       }
     } = this.props
-    const { levelCode } = this.state
+    const { levelCode, info } = this.state
+
+    const paddingTop = info.navBarHeight + info.navBarExtendHeight + 'px'
+
     return (
       <Page>
-        <CustomNavBar title='我的' backgroundColor='rgba(0,0,0,0)'>
-        </CustomNavBar>
+        <CustomNavBar title='我的' backgroundColor='rgba(0,0,0,0)' />
         <View className='page-view'>
           <ScrollView className='page-scroll' scrollY>
-            <View className='mine-user-wrapper'>
+            <View className='mine-user-wrapper' style={{ paddingTop: paddingTop }}>
               <View className='mine-user--content'>
                 <Image
                   src={userInfo.avatarUrl}
@@ -138,8 +136,16 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                 <Text className='mine-user--userName'>{userInfo.nickName}</Text>
                 <View className='mine-user--level'>
                   <View className='mine-user--level-vip v2' />
-                  <Text className='mine-user--level-text'>创客：{levelCode[userLevel.levelCode] || '普通用户'}</Text>
+                  <Text className='mine-user--level-text'>创客：{levelCode[userLevel.levelCode] ||
+                  '普通用户'}</Text>
                 </View>
+                <Icon
+                  name='ico'
+                  className='mine-user--code'
+                  onClick={() => toRouter('/pages/personal/qrCode/index')}
+                  size={20}
+                  color='#fff'
+                />
               </View>
             </View>
             <View className='user-member-wrapper'>
@@ -149,7 +155,8 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                     <Icon name='huiyuan' size={20} className='user-member--item-icon' color='#FA6400' />
                     <Text className='user-member--item-title'>会员有效期</Text>
                   </View>
-                  <Text className='user-member--item-time'>{userLevel.expTime || '永久有效'}</Text>
+                  <Text className='user-member--item-time'>{userLevel.expTime ||
+                  '永久有效'}</Text>
                 </View>
                 <Text className='user-member--item-desc'>{userLevel.description}</Text>
                 <Progress
@@ -198,7 +205,8 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                     <Text className='struct-item__text'>我的佣金</Text>
                   </View>
                   <View className='struct-item__right'>
-                    <Text className='struct-item__money'>￥{walletInfo.money.toFixed(2)}元</Text>
+                    <Text className='struct-item__money'>￥{walletInfo.money.toFixed(
+                      2)}元</Text>
                     <Icon name='more' size='14' color='#E6E6E6' />
                   </View>
                 </View>
@@ -261,8 +269,10 @@ MinePage.defaultProps = {
       }
     }
   },
-  getUserInfo: () => {},
-  getUserCenter: () => {},
+  getUserInfo: () => {
+  },
+  getUserCenter: () => {
+  }
 }
 MinePage.propTypes = {
   user: PropTypes.object
