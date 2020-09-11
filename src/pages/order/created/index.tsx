@@ -1,7 +1,7 @@
 import React from 'react'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
-import { ScrollView, Text, View } from '@tarojs/components'
+import { Image, ScrollView, Text, View } from '@tarojs/components'
 
 import './index.less'
 
@@ -17,15 +17,35 @@ class OrderCreated extends React.Component<any, any> {
         <View className='page-view'>
           <ScrollView className='page-scroll' scrollY>
             <View className='created-order--content'>
-              <View className='created-order--address'></View>
+              <View className='created-order--address'>
+                <Image
+                  src={require('../../../assets/common/address-icon.png')}
+                />
+                <View>
+                </View>
+                <View className='created-order--address-more'>
+                  去填写
+                  <Icon name='more' />
+                </View>
+              </View>
               <View className='created-order--details'>
                 <View className='created-order--title'>京东商品</View>
                 <View className='created-order--product'>
+                  <View className='created-order--product-image'>
+                  </View>
+                  <View className='created-order--product-content'>
+                    <Text className='created-order--product-title'>果MacBook Pro
+                      13.3英寸2.0GHz四核16G内存 512G/1T固态苹果笔记本电脑…</Text>
+                    <View className='created-order--product-more'>
+                      <Text className='created-order--product-price color'>￥8999.00</Text>
+                      <Text className='created-order--product-num'>x1</Text>
+                    </View>
+                  </View>
                 </View>
                 <View className='created-order--item'>
                   <Text className='created-order--item-label'>商品价格</Text>
                   <View className='created-order--item-right'>
-                    <Text>￥8900.00</Text>
+                    <Text style={{ color: '#777' }}>￥8900.00</Text>
                   </View>
                 </View>
                 <View className='created-order--item'>
