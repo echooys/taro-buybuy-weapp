@@ -1,4 +1,45 @@
 .created-order {
+  &--address {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    &_content {
+      flex: 1;
+      font-size: 24px;
+
+      &_default {
+        color: #989898;
+      }
+
+      &_select {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+
+    &_icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    &-more {
+      font-size: 24px;
+      color: #666;
+
+      &-text {
+        margin-right: 10px;
+      }
+    }
+  }
+
   &--content {
     box-sizing: border-box;
     width: 100%;
@@ -9,6 +50,7 @@
     background-color: #fff;
     border-radius: 20px;
     padding: 0 20px;
+    margin-top: 40px;
   }
 
   &--title {

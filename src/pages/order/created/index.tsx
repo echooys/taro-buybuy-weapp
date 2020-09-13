@@ -1,9 +1,9 @@
 import React from 'react'
+import { Image, ScrollView, Text, View } from '@tarojs/components'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
-import { Image, ScrollView, Text, View } from '@tarojs/components'
-
 import './index.less'
+import { toRouter } from '_/utils/common'
 
 class OrderCreated extends React.Component<any, any> {
   constructor (props) {
@@ -17,15 +17,24 @@ class OrderCreated extends React.Component<any, any> {
         <View className='page-view'>
           <ScrollView className='page-scroll' scrollY>
             <View className='created-order--content'>
-              <View className='created-order--address'>
+              <View className='created-order--address' onClick={() => toRouter('/pages/personal/address/index')}>
                 <Image
-                  src={require('../../../assets/common/address-icon.png')}
+                  className='created-order--address_icon'
+                  src={require('_/assets/common/address-icon.png')}
                 />
-                <View>
+                <View className='created-order--address_content'>
+                  <Text className='created-order--address_content_default'>
+                    您还没有填写收货地址
+                  </Text>
+                  <Text className='created-order--address_content_select'>
+                    李雪峰 15223150743
+                  </Text>
                 </View>
                 <View className='created-order--address-more'>
-                  去填写
-                  <Icon name='more' />
+                  <Text className='created-order--address-more-text'>
+                    去填写
+                  </Text>
+                  <Icon name='more' size={14} color='#777' />
                 </View>
               </View>
               <View className='created-order--details'>
