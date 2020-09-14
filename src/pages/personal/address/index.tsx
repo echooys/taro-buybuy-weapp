@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Taro from '@tarojs/taro'
 import { ScrollView, Text, View } from '@tarojs/components'
 import classNames from 'classnames'
 import Page from '_/components/Page'
@@ -58,6 +59,15 @@ class Address extends React.Component<any, any> {
     })
   }
 
+  handleDelete (index: number) {
+    Taro.showModal({
+      title: '确认',
+      content: '您确认要删除该收货地址吗？'
+    }).then(res => {
+      console.log(res, index)
+    })
+  }
+
   render (): JSX.Element {
     const { items } = this.state
     return (
@@ -69,14 +79,11 @@ class Address extends React.Component<any, any> {
                 return (
                   <View
                     className={classNames(
-                      'address-item',
-                      {
-                        'touch-move-active': item.isTouchMove
-                      }
+                      'address-item', { 'touch-move-active': item.isTouchMove }
                     )}
                     key={key}
                     onTouchStart={this.handleTouchStart.bind(this)}
-                    onTouchMove={e => this.handleTouchMove.bind(this, e, key)}
+                    onTouchMove={e => this.handleTouchMove(e, key)}
                   >
                     <View className='address-item__wrapper'>
                       <View className='address-item__container'>
@@ -100,7 +107,7 @@ class Address extends React.Component<any, any> {
                         <View className='address-item__action_btn default'>
                           设为默认
                         </View>
-                        <View className='address-item__action_btn delete'>
+                        <View className='address-item__action_btn delete' onClick={this.handleDelete.bind(this)}>
                           删除地址
                         </View>
                       </View>

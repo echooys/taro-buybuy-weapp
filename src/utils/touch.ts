@@ -1,7 +1,4 @@
 export class Touch {
-  constructor () {
-  }
-
   startX: number = 0
   startY: number = 0
 
@@ -11,15 +8,12 @@ export class Touch {
       if (v.isTouchMove) //只操作为true的
         v.isTouchMove = false
     })
-
     this.startX = e.changedTouches[0].clientX
     this.startY = e.changedTouches[0].clientY
-
     return items
   }
 
   _touchmove (e, items, index) {
-    console.log(e)
     let touchMoveX = e.changedTouches[0].clientX, //滑动变化坐标
       touchMoveY = e.changedTouches[0].clientY, //滑动变化坐标
       //获取滑动角度
@@ -30,19 +24,12 @@ export class Touch {
         X: touchMoveX,
         Y: touchMoveY
       })
-    items.forEach(function (v, i) {
+    items.forEach((v, i) => {
       v.isTouchMove = false
       //滑动超过30度角 return
       if (Math.abs(angle) > 30) return
-      console.log(i, index)
       if (i == index) {
-        if (touchMoveX > this.startX) {
-          //右滑
-          v.isTouchMove = false
-        } else {
-          //左滑
-          v.isTouchMove = true
-        }
+        v.isTouchMove = touchMoveX <= this.startX
       }
     })
     return items
