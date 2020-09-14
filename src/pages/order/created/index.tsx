@@ -2,8 +2,9 @@ import React from 'react'
 import { Image, ScrollView, Text, View } from '@tarojs/components'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
-import './index.less'
 import { toRouter } from '_/utils/common'
+
+import './index.less'
 
 class OrderCreated extends React.Component<any, any> {
   constructor (props) {
@@ -17,10 +18,13 @@ class OrderCreated extends React.Component<any, any> {
         <View className='page-view'>
           <ScrollView className='page-scroll' scrollY>
             <View className='created-order--content'>
-              <View className='created-order--address' onClick={() => toRouter('/pages/personal/address/index')}>
+              <View
+                className='created-order--address'
+                onClick={() => toRouter('/pages/personal/address/index')}
+              >
                 <Image
                   className='created-order--address_icon'
-                  src={require('_/assets/common/address-icon.png')}
+                  src={'../../../assets/common/address-icon.png'}
                 />
                 <View className='created-order--address_content'>
                   <Text className='created-order--address_content_default'>
