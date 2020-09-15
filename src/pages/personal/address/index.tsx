@@ -4,6 +4,7 @@ import { ScrollView, Text, View } from '@tarojs/components'
 import classNames from 'classnames'
 import Page from '_/components/Page'
 import { Touch } from '_/utils/touch'
+import { toRouter } from '_/utils/common'
 
 import './index.less'
 
@@ -73,7 +74,7 @@ class Address extends React.Component<any, any> {
     return (
       <Page>
         <View className='page-view'>
-          <ScrollView className='page-scroll'>
+          <ScrollView className='page-scroll' scrollY>
             <View className='address-list'>
               {items.map((item, key) => {
                 return (
@@ -107,7 +108,10 @@ class Address extends React.Component<any, any> {
                         <View className='address-item__action_btn default'>
                           设为默认
                         </View>
-                        <View className='address-item__action_btn delete' onClick={this.handleDelete.bind(this)}>
+                        <View
+                          className='address-item__action_btn delete'
+                          onClick={this.handleDelete.bind(this, key)}
+                        >
                           删除地址
                         </View>
                       </View>
@@ -119,7 +123,10 @@ class Address extends React.Component<any, any> {
           </ScrollView>
         </View>
         <View className='address-manager'>
-          <View className='address-manager--submit'>
+          <View
+            className='address-manager--submit'
+            onClick={() => toRouter('/pages/personal/addressManager/index')}
+          >
             添加收货地址
           </View>
         </View>
