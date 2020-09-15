@@ -9,7 +9,7 @@ import { getAreaCode } from '_/api/address'
 import './index.less'
 
 interface AddressFaceState {
-  provinceId: number // 收货地址id
+  provinceId: number
   streetId: number
   cityId: number
   areaId: number
