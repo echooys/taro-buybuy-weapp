@@ -18,6 +18,7 @@ interface AddressFaceState {
   isDefault: boolean
   mobile: string
   realName: string
+  remark: string
   isOpened: boolean
   areaList: any[],
   selectMap: SelectMapFace[]
@@ -40,10 +41,11 @@ class AddressManager extends React.Component<any, AddressFaceState> {
       areaId: 0,
       chineseAddress: undefined,
 
-      address: '4栋8号9-5',
+      address: '',
       isDefault: true,
-      mobile: '15823978441',
-      realName: '张三',
+      mobile: '',
+      realName: '',
+      remark: '',
 
       isOpened: false,
       areaList: [],
@@ -54,16 +56,25 @@ class AddressManager extends React.Component<any, AddressFaceState> {
     }
   }
 
-  changeName () {
-
+  changeName (e) {
+    this.setState({ realName: e.detail.value })
   }
 
-  changeMobile () {
-
+  changeMobile (e) {
+    this.setState({ mobile: e.detail.value })
   }
 
-  changeAddress () {
+  changeAddress (e) {
+    this.setState({ address: e.detail.value })
+  }
 
+  handleChangeDefault () {
+    const { isDefault } = this.state
+    this.setState({ isDefault: !isDefault })
+  }
+
+  handleChangeRemark (e) {
+    this.setState({ remark: e.detail.value })
   }
 
   /**
@@ -146,16 +157,36 @@ class AddressManager extends React.Component<any, AddressFaceState> {
         })
         this.setState({ areaList: list, selectMap: newSelectMap })
       } else {
-        this.setState({ areaList: [], isOpened: false })
+        this.setState({ areaList: [], isOpened: false }, () => {
+          this.handleCityData()
+        })
       }
     })
   }
 
+  /**
+   * 保存当前所选城市
+   */
   handleCityData () {
     const { selectMap } = this.state
     if (selectMap.length === 4) {
-      console.log(selectMap)
+      const chineseAddress = selectMap.map(item => item.name)
+      this.setState({
+        chineseAddress: chineseAddress.join('-'),
+        provinceId: selectMap[0].ariId,
+        cityId: selectMap[1].ariId,
+        areaId: selectMap[2].ariId,
+        streetId: selectMap[3].ariId,
+        selectMap: []
+      })
     }
+  }
+
+  /**
+   * 提交
+   */
+  handleSubmit () {
+
   }
 
   render () {
@@ -165,6 +196,7 @@ class AddressManager extends React.Component<any, AddressFaceState> {
       mobile,
       isDefault,
       address,
+      remark,
       isOpened,
       areaList,
       selectMap,
@@ -184,6 +216,7 @@ class AddressManager extends React.Component<any, AddressFaceState> {
                     <Input
                       placeholder='请输入收货人姓名'
                       value={realName}
+                      onInput={this.changeName.bind(this)}
                       className='address-manager--item_input'
                     />
                   </View>
@@ -198,6 +231,7 @@ class AddressManager extends React.Component<any, AddressFaceState> {
                     <Input
                       placeholder='请输入手机号码'
                       value={mobile}
+                      onInput={this.changeMobile.bind(this)}
                       type='number'
                       className='address-manager--item_input'
                     />
@@ -227,14 +261,15 @@ class AddressManager extends React.Component<any, AddressFaceState> {
                   </View>
                   <View className='address-manager--item_flex'>
                     <Input
-                      placeholder='请输入收货人姓名'
+                      placeholder='请输入详细地址'
                       value={address}
+                      onInput={this.changeAddress.bind(this)}
                       className='address-manager--item_input'
                     />
                   </View>
                 </View>
               </View>
-              <View className='address-manager--epItem'>
+              <View className='address-manager--epItem' onClick={this.handleChangeDefault.bind(this)}>
                 <View className='address-manager--epItem_flex'>
                   <View className='address-manager--epItem_title'>设置为默认地址</View>
                   <View className='address-manager--epItem_desc'>每次下单会默认该地址</View>
@@ -253,7 +288,9 @@ class AddressManager extends React.Component<any, AddressFaceState> {
                   <View className='address-manager--epItem_desc'>
                     <Textarea
                       className='address-manager--epItem_textarea'
+                      value={remark}
                       maxlength={200}
+                      onInput={this.handleChangeRemark.bind(this)}
                       placeholder='请输入备注'
                     />
                   </View>
