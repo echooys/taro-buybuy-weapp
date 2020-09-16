@@ -7,6 +7,8 @@ import Page from '_/components/Page'
 import { Touch } from '_/utils/touch'
 import { toRouter } from '_/utils/common'
 import { getAddressList } from '_/store/actions/address'
+import { deleteAddress, putAddress } from '_/api/address'
+import { AddressFace } from '_/store/reducers/address'
 
 import './index.less'
 
@@ -26,11 +28,12 @@ class Address extends React.Component<any, any> {
 
   componentDidUpdate (prevProps) {
     if (prevProps.address !== this.props.address) {
-      console.log(prevProps.address)
-      console.log(this.props.address)
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ items: this.props.address })
+      this.changeItems(this.props.address)
     }
+  }
+
+  changeItems (address) {
+    this.setState({ items: address })
   }
 
   handleTouchStart (e) {
@@ -49,12 +52,46 @@ class Address extends React.Component<any, any> {
     })
   }
 
-  handleDelete (index: number) {
+  /**
+   * 删除收货地址
+   * @param item
+   */
+  handleDelete (item: AddressFace) {
     Taro.showModal({
       title: '确认',
       content: '您确认要删除该收货地址吗？'
-    }).then(res => {
-      console.log(res, index)
+    }).then(() => {
+      Taro.showLoading({ title: '删除中...' })
+      deleteAddress(item.addressBookId).then(({ result }) => {
+        if (result) {
+          this.props.getAddressListHandle()
+          Taro.showToast({ icon: 'success', title: '删除成功！' })
+        }
+      }).finally(() => {
+        Taro.hideLoading()
+      })
+    })
+  }
+
+  /**
+   * 设置为默认收货地址
+   * @param item
+   */
+  handleSetDefault (item: AddressFace) {
+    Taro.showModal({
+      title: '确认',
+      content: '您确定要将该地址设定为默认地址吗？'
+    }).then(() => {
+      Taro.showLoading({ title: '删除中...' })
+      const data = Object.assign({}, item, { isDefault: true })
+      putAddress(item.addressBookId, data).then(({ result }) => {
+        if (result) {
+          this.props.getAddressListHandle()
+          Taro.showToast({ icon: 'success', title: '删除成功！' })
+        }
+      }).finally(() => {
+        Taro.hideLoading()
+      })
     })
   }
 
@@ -100,12 +137,15 @@ class Address extends React.Component<any, any> {
                         </View>
                       </View>
                       <View className='address-item__action'>
-                        <View className='address-item__action_btn default'>
+                        <View
+                          className='address-item__action_btn default'
+                          onClick={this.handleSetDefault.bind(this, item)}
+                        >
                           设为默认
                         </View>
                         <View
                           className='address-item__action_btn delete'
-                          onClick={this.handleDelete.bind(this, key)}
+                          onClick={this.handleDelete.bind(this, item)}
                         >
                           删除地址
                         </View>

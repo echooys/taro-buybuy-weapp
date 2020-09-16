@@ -7,15 +7,11 @@ import Page from '_/components/Page'
 import Icon from '_/components/Icon'
 import Popup from '_/components/Popup'
 import { getAddressList } from '_/store/actions/address'
-import {
-  addAddress,
-  getAreaCode,
-  putAddress
-} from '_/api/address'
+import { addAddress, getAreaCode, putAddress } from '_/api/address'
 
 import './index.less'
 
-interface AddressFaceState {
+export interface AddressFaceState {
   provinceId: number
   streetId: number
   cityId: number

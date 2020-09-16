@@ -11,9 +11,9 @@ import { get } from '_/utils/storage'
 import { setUserInfo, setUserCenter } from '_/store/actions/user'
 import getSysInfo, { SystemInfoFace } from '_/utils/getSysInfo'
 import { toRouter } from '_/utils/common'
+import { updateUserInfo } from '_/api/user'
 
 import './index.less'
-import { updateUserInfo } from '_/api/user'
 
 interface PageMineProps {
   getUserInfo: (data: any) => void,
@@ -54,16 +54,6 @@ interface PageMineState {
   info: SystemInfoFace
 }
 
-@connect(({ user }) => ({
-  user
-}), (dispatch) => ({
-  getUserInfo (data) {
-    dispatch(setUserInfo(data))
-  },
-  getUserCenter () {
-    dispatch(setUserCenter())
-  }
-}))
 class MinePage extends Component<PageMineProps, PageMineState> {
   public static defaultProps: PageMineProps
   public static propTypes: InferProps<PageMineProps>
@@ -288,5 +278,20 @@ MinePage.defaultProps = {
 MinePage.propTypes = {
   user: PropTypes.object
 }
+const mapStateToProps = ({ user }) => {
+  return {
+    user: user
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserInfo: (data) => {
+      dispatch(setUserInfo(data))
+    },
+    getUserCenter: () => {
+      dispatch(setUserCenter())
+    }
+  }
+}
 
-export default MinePage
+export default connect(mapStateToProps, mapDispatchToProps)(MinePage)

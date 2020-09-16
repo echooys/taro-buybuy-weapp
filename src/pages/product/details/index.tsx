@@ -128,7 +128,7 @@ class ProductDetails extends React.Component<any, DetailState> {
   }
 
   /*
-  * 规格选择
+  *
   * */
   renderSelectProductSku () {
     const { selectCurrentSku } = this.state

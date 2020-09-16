@@ -1,6 +1,6 @@
 import { GET_ADDRESS_LIST } from '_/store/constants/address'
 
-interface AddressFace {
+export interface AddressFace {
   addressBookId: number
   provinceId: number
   cityId: number
