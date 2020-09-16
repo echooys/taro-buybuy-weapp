@@ -1,10 +1,17 @@
 import * as React from 'react'
 import classNames from 'classnames'
+import Taro from '@tarojs/taro'
+import { connect } from 'react-redux'
 import { Input, ScrollView, Text, Textarea, View } from '@tarojs/components'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
 import Popup from '_/components/Popup'
-import { getAreaCode } from '_/api/address'
+import { getAddressList } from '_/store/actions/address'
+import {
+  addAddress,
+  getAreaCode,
+  putAddress
+} from '_/api/address'
 
 import './index.less'
 
@@ -53,6 +60,27 @@ class AddressManager extends React.Component<any, AddressFaceState> {
         { name: '请选择', ariCode: undefined, ariId: 0 }
       ],
       currentIndex: 0
+    }
+  }
+
+  componentDidMount () {
+    const id: string | undefined = Taro.getCurrentInstance().router?.params.id
+    if (id) {
+      const { address } = this.props
+      const currentAddress = address.find(item => {
+        return item.addressBookId === Number(id || 0)
+      })
+      this.setState({
+        provinceId: currentAddress.provinceId, // 收货地址id
+        streetId: currentAddress.streetId,
+        cityId: currentAddress.cityId,
+        areaId: currentAddress.areaId,
+        address: currentAddress.address,
+        isDefault: currentAddress.isDefault,
+        mobile: currentAddress.mobile,
+        realName: currentAddress.realname,
+        remark: currentAddress.remark
+      })
     }
   }
 
@@ -186,7 +214,66 @@ class AddressManager extends React.Component<any, AddressFaceState> {
    * 提交
    */
   handleSubmit () {
+    const {
+      realName,
+      mobile,
+      isDefault,
+      address,
+      provinceId,
+      cityId,
+      areaId,
+      streetId,
+      remark
+    } = this.state
+    const router = Taro.getCurrentInstance().router
 
+    if (!/^[\u4e00-\u9fa5]{2,4}$/.test(realName)) {
+      Taro.showToast({ icon: 'none', title: '请输入收件人姓名' })
+      return false
+    }
+    if (!/^1[3456789]\d{9}$/.test(mobile)) {
+      Taro.showToast({ icon: 'none', title: '请正确输入手机号' })
+      return false
+    }
+    if (!provinceId && !cityId && !areaId && !streetId) {
+      Taro.showToast({ icon: 'none', title: '请选择地区' })
+      return false
+    }
+    if (!address) {
+      Taro.showToast({ icon: 'none', title: '请正确详细地址' })
+      return false
+    }
+    const data = {
+      realName,
+      mobile,
+      isDefault,
+      address,
+      provinceId,
+      cityId,
+      areaId,
+      streetId,
+      remark
+    }
+
+    // 判断是新增还是编辑
+    const id = router?.params.id
+    if (id) {
+      putAddress(id, data).then(res => {
+        const { result } = res
+        if (result === 'ok') {
+          this.props.getAddressListHandle()
+          Taro.navigateBack()
+        }
+      })
+    } else {
+      addAddress(data).then(res => {
+        const { result } = res
+        if (result === 'ok') {
+          this.props.getAddressListHandle()
+          Taro.navigateBack()
+        }
+      })
+    }
   }
 
   render () {
@@ -269,7 +356,10 @@ class AddressManager extends React.Component<any, AddressFaceState> {
                   </View>
                 </View>
               </View>
-              <View className='address-manager--epItem' onClick={this.handleChangeDefault.bind(this)}>
+              <View
+                className='address-manager--epItem'
+                onClick={this.handleChangeDefault.bind(this)}
+              >
                 <View className='address-manager--epItem_flex'>
                   <View className='address-manager--epItem_title'>设置为默认地址</View>
                   <View className='address-manager--epItem_desc'>每次下单会默认该地址</View>
@@ -300,7 +390,10 @@ class AddressManager extends React.Component<any, AddressFaceState> {
           </ScrollView>
         </View>
         <View className='address-manager'>
-          <View className='address-manager--submit'>
+          <View
+            className='address-manager--submit'
+            onClick={this.handleSubmit.bind(this)}
+          >
             保存并使用
           </View>
         </View>
@@ -348,4 +441,12 @@ class AddressManager extends React.Component<any, AddressFaceState> {
   }
 }
 
-export default AddressManager
+const mapStateToProps = ({ address }) => ({ address: address.list })
+const mapDispatchToProps = dispatch => {
+  return {
+    getAddressListHandle: () => {
+      dispatch(getAddressList())
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddressManager)

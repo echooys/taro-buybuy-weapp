@@ -23,9 +23,24 @@ export function getUserInfo () {
   })
 }
 
+/**
+ * 获取用户二维码
+ */
 export function getQrCode () {
   return http({
     url: '/user/center/qrcode/' + appId,
     method: 'GET'
+  })
+}
+
+/**
+ * 更新用户信息
+ * @param data
+ */
+export function updateUserInfo (data) {
+  return http({
+    url: '/user/info',
+    method: 'PUT',
+    data
   })
 }

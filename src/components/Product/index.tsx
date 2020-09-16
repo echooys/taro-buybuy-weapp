@@ -1,7 +1,7 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
 import PropTypes, { InferProps } from 'prop-types'
 import { Image, Text, View } from '@tarojs/components'
+import { GoodTypes, toRouter } from '_/utils/common'
 
 import './index.less'
 
@@ -15,9 +15,8 @@ class Product extends React.Component<ProductProps, any> {
   public static propTypes: InferProps<ProductProps>
 
   jumpProductDetails (item) {
-    Taro.navigateTo({
-      url: `/pages/product/details/index?spuId=${item.spuId}&type=${item.source}`
-    })
+    toRouter(
+      `/pages/product/details/index?spuId=${item.spuId}&type=${item.source}`)
   }
 
   render (): JSX.Element {
@@ -31,7 +30,7 @@ class Product extends React.Component<ProductProps, any> {
         <View className='product-title'>{sourceData.name}</View>
         <View className='product-level'>
           {sourceData.source && (
-            <Text className='product-level-label'>{sourceData.source}</Text>
+            <Text className='product-level-label'>{GoodTypes[sourceData.source]}</Text>
           )}
         </View>
         <View className='product-price'>

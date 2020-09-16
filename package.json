@@ -41,6 +41,7 @@
     "@tarojs/react": "3.0.7",
     "@tarojs/runtime": "3.0.7",
     "@tarojs/taro": "3.0.7",
+    "@types/react-redux": "^7.1.9",
     "classnames": "^2.2.6",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",

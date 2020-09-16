@@ -1,13 +1,17 @@
 import Taro from '@tarojs/taro'
 
+export const GoodTypes = {
+  'TAOBAO': '淘宝',
+  'JD': '京东',
+  'PDD': '拼多多'
+}
+
 export function toRouter (url: string, params?: object) {
   let _url = url
   if (params) _url += '?' + urlEncode(params)
-
-  console.log(_url)
   Taro.navigateTo({
     url: _url
-  }).finally()
+  }).finally(() => {})
 }
 
 function urlEncode (param, key?: string, encode?: string) {

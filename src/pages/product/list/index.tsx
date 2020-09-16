@@ -25,11 +25,11 @@ export default class ProductList extends React.Component<any, any> {
       sortType: undefined,
       // 综合排序
       compList: [
-        { key: 'taobao', text: '淘宝' },
-        { key: 'jd', text: '京东' },
-        { key: 'pingduoduo', text: '拼多多' }
+        { key: 'TAOBAO', text: '淘宝' },
+        { key: 'JD', text: '京东' },
+        { key: 'PDD', text: '拼多多' }
       ],
-      compValue: 'taobao',
+      compValue: 'TAOBAO',
       // 价格排序
       minPriceValue: undefined,
       maxPriceValue: undefined

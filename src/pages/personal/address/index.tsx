@@ -1,10 +1,12 @@
 import * as React from 'react'
 import Taro from '@tarojs/taro'
+import { connect } from 'react-redux'
 import { ScrollView, Text, View } from '@tarojs/components'
 import classNames from 'classnames'
 import Page from '_/components/Page'
 import { Touch } from '_/utils/touch'
 import { toRouter } from '_/utils/common'
+import { getAddressList } from '_/store/actions/address'
 
 import './index.less'
 
@@ -13,34 +15,21 @@ class Address extends React.Component<any, any> {
     super(props)
     this.state = {
       touch: new Touch(),
-      items: [
-        {
-          addressBookId: 1,
-          provinceId: 1,
-          cityId: 2,
-          areaId: 3,
-          streetId: 1,
-          address: '4栋8号9-5',
-          isDefault: true,
-          mobile: '15823978441',
-          realname: '张三',
-          userId: '472357fa2b074cad9257166be1534abd',
-          fullAddress: '北京天津河北省4栋8号9-5'
-        },
-        {
-          addressBookId: 1,
-          provinceId: 1,
-          cityId: 2,
-          areaId: 3,
-          streetId: 1,
-          address: '4栋8号9-5',
-          isDefault: false,
-          mobile: '15823978441',
-          realname: '张三',
-          userId: '472357fa2b074cad9257166be1534abd',
-          fullAddress: '北京天津河北省4栋8号9-5'
-        }
-      ]
+      items: []
+    }
+  }
+
+  componentDidMount () {
+    const { getAddressListHandle } = this.props
+    getAddressListHandle()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.address !== this.props.address) {
+      console.log(prevProps.address)
+      console.log(this.props.address)
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ items: this.props.address })
     }
   }
 
@@ -101,7 +90,13 @@ class Address extends React.Component<any, any> {
                           </View>
                         </View>
                         <View className='address-item__right'>
-                          <Text className='address-item__right_text'>编辑</Text>
+                          <Text
+                            className='address-item__right_text'
+                            onClick={() => toRouter(
+                              `/pages/personal/addressManager/index?id=${item.addressBookId}`)}
+                          >
+                            编辑
+                          </Text>
                         </View>
                       </View>
                       <View className='address-item__action'>
@@ -135,4 +130,17 @@ class Address extends React.Component<any, any> {
   }
 }
 
-export default Address
+const mapStateToProps = state => {
+  return {
+    address: state.address.list
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    getAddressListHandle: () => {
+      dispatch(getAddressList())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Address)

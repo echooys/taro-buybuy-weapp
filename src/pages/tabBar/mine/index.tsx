@@ -13,6 +13,7 @@ import getSysInfo, { SystemInfoFace } from '_/utils/getSysInfo'
 import { toRouter } from '_/utils/common'
 
 import './index.less'
+import { updateUserInfo } from '_/api/user'
 
 interface PageMineProps {
   getUserInfo: (data: any) => void,
@@ -92,6 +93,11 @@ class MinePage extends Component<PageMineProps, PageMineState> {
           this.props.getUserCenter()
           Taro.getUserInfo().then(({ userInfo }) => {
             this.props.getUserInfo(userInfo)
+            updateUserInfo(userInfo).then(({ result }) => {
+              if (result === 'ok') {
+                Taro.showToast({ icon: 'success', title: '用户信息已同步' })
+              }
+            })
           })
         } else {
           //TODO-- 跳转登陆
@@ -102,6 +108,11 @@ class MinePage extends Component<PageMineProps, PageMineState> {
       this.props.getUserCenter()
       Taro.getUserInfo().then(({ userInfo }) => {
         this.props.getUserInfo(userInfo)
+        updateUserInfo(userInfo).then(({ result }) => {
+          if (result === 'ok') {
+            Taro.showToast({ icon: 'success', title: '用户信息已同步' })
+          }
+        })
       })
     }
   }
