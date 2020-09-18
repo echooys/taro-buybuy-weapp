@@ -1,4 +1,4 @@
-import { SET_USER_INFO, SET_USER_CENTER } from '_/store/constants/user'
+import { SET_USER_INFO, SET_USER_CENTER } from '_/store/constants/index'
 
 const INITIAL_STATE = {
   userInfo: {

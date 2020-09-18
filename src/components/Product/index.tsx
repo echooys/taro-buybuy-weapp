@@ -26,7 +26,7 @@ class Product extends React.Component<ProductProps, any> {
         className='product'
         onClick={this.jumpProductDetails.bind(this, sourceData)}
       >
-        <Image src={sourceData.imgUrl} mode='aspectFit' className='product-image' />
+        <Image src={sourceData.imgUrl} mode='aspectFill' className='product-image' />
         <View className='product-title'>{sourceData.name}</View>
         <View className='product-level'>
           {sourceData.source && (

@@ -7,11 +7,15 @@ import Page from '_/components/Page'
 import Icon from '_/components/Icon'
 import Popup from '_/components/Popup'
 import { getAddressList } from '_/store/actions/address'
-import { addAddress, getAreaCode, putAddress } from '_/api/address'
+import {
+  addAddress,
+  getAreaCode,
+  putAddress
+} from '_/api/address'
 
 import './index.less'
 
-export interface AddressFaceState {
+interface AddressFaceState {
   provinceId: number
   streetId: number
   cityId: number
@@ -66,6 +70,7 @@ class AddressManager extends React.Component<any, AddressFaceState> {
       const currentAddress = address.find(item => {
         return item.addressBookId === Number(id || 0)
       })
+      let _chineseAddress = currentAddress.fullAddress.split('-')
       this.setState({
         provinceId: currentAddress.provinceId, // 收货地址id
         streetId: currentAddress.streetId,
@@ -75,7 +80,8 @@ class AddressManager extends React.Component<any, AddressFaceState> {
         isDefault: currentAddress.isDefault,
         mobile: currentAddress.mobile,
         realName: currentAddress.realname,
-        remark: currentAddress.remark
+        remark: currentAddress.remark,
+        chineseAddress: _chineseAddress.slice(0, 4).join('-')
       })
     }
   }

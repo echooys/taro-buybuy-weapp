@@ -81,7 +81,6 @@ class ProductDetails extends React.Component<any, DetailState> {
       if (result === 'ok') {
         this.setState({ detail: data })
       }
-    }).finally(() => {
       Taro.hideLoading()
     })
   }
@@ -127,9 +126,6 @@ class ProductDetails extends React.Component<any, DetailState> {
     this.setState({ num: num + 1 })
   }
 
-  /*
-  *
-  * */
   renderSelectProductSku () {
     const { selectCurrentSku } = this.state
     let name: string[] = []
@@ -161,10 +157,11 @@ class ProductDetails extends React.Component<any, DetailState> {
   handleSubmit () {
     const { selectCurrentSku } = this.state
     if (!selectCurrentSku) {
-      Taro.showToast({ title: '请选择sku', icon: 'none' }).finally()
+      Taro.showToast({ title: '请选择sku', icon: 'none' })
       return
     }
     // TODO: 提交订单
+    console.log(selectCurrentSku)
   }
 
   render (): JSX.Element {
@@ -217,7 +214,9 @@ class ProductDetails extends React.Component<any, DetailState> {
         </View>
         <View
           className='goods-submit'
-          onClick={this.handleSubmit.bind(this)}
+          onClick={() => {
+            this.setState({ visibleSkuModel: true })
+          }}
         >
           立即购买
         </View>

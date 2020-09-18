@@ -87,7 +87,7 @@ class Address extends React.Component<any, any> {
       putAddress(item.addressBookId, data).then(({ result }) => {
         if (result) {
           this.props.getAddressListHandle()
-          Taro.showToast({ icon: 'success', title: '删除成功！' })
+          Taro.showToast({ icon: 'success', title: '设置成功！' })
         }
       }).finally(() => {
         Taro.hideLoading()

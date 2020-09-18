@@ -1,4 +1,4 @@
-import { GET_ADDRESS_LIST } from '_/store/constants/address'
+import { GET_ADDRESS_LIST } from '_/store/constants'
 import { getAddress } from '_/api/address'
 
 /**
