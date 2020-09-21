@@ -8,6 +8,7 @@ import {
   Image,
   Text
 } from '@tarojs/components'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
@@ -80,6 +81,7 @@ class ProductDetails extends React.Component<any, DetailState> {
       const { result, data } = res
       if (result === 'ok') {
         this.setState({ detail: data })
+
       }
       Taro.hideLoading()
     })
@@ -155,13 +157,22 @@ class ProductDetails extends React.Component<any, DetailState> {
   }
 
   handleSubmit () {
-    const { selectCurrentSku } = this.state
+    const { selectCurrentSku, num } = this.state
     if (!selectCurrentSku) {
       Taro.showToast({ title: '请选择sku', icon: 'none' })
       return
     }
     // TODO: 提交订单
-    console.log(selectCurrentSku)
+    const router = Taro.getCurrentInstance().router
+    this.props.setOrderInfo({
+      spuId: selectCurrentSku.skuId,
+      skuId: selectCurrentSku.key,
+      source: router?.params.type, // 商品来源
+      goodsNum: num// 商品数量
+    })
+    Taro.navigateTo({
+      url: '/pages/order/created/index'
+    })
   }
 
   render (): JSX.Element {
@@ -309,4 +320,13 @@ class ProductDetails extends React.Component<any, DetailState> {
 
 }
 
-export default ProductDetails
+const mapStateToProps = () => ({})
+const mapDispatchToProps = dispatch => {
+  return {
+    setOrderInfo: (data) => {
+      dispatch(data)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails)

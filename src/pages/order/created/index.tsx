@@ -24,7 +24,7 @@ class OrderCreated extends React.Component<any, any> {
               >
                 <Image
                   className='created-order--address_icon'
-                  src='../../../assets/common/address-icon.png'
+                  src={require('../../../assets/common/address-icon.png')}
                 />
                 <View className='created-order--address_content'>
                   <Text className='created-order--address_content_default'>
