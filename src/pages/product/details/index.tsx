@@ -14,6 +14,7 @@ import Page from '_/components/Page'
 import Icon from '_/components/Icon'
 import Popup from '_/components/Popup'
 import { getGoodsDetails } from '_/api/common'
+import { createOrderInfo } from '_/store/actions/order'
 
 import './index.less'
 
@@ -157,7 +158,7 @@ class ProductDetails extends React.Component<any, DetailState> {
   }
 
   handleSubmit () {
-    const { selectCurrentSku, num } = this.state
+    const { selectCurrentSku, num, detail } = this.state
     if (!selectCurrentSku) {
       Taro.showToast({ title: '请选择sku', icon: 'none' })
       return
@@ -168,7 +169,11 @@ class ProductDetails extends React.Component<any, DetailState> {
       spuId: selectCurrentSku.skuId,
       skuId: selectCurrentSku.key,
       source: router?.params.type, // 商品来源
-      goodsNum: num// 商品数量
+      goodsNum: num, // 商品数量
+      productName: detail?.name,
+      productImage: detail?.imgUrlList[0].imgUrl,
+      originalPrice: selectCurrentSku.originalPrice,
+      price: selectCurrentSku.price
     })
     Taro.navigateTo({
       url: '/pages/order/created/index'
@@ -324,7 +329,7 @@ const mapStateToProps = () => ({})
 const mapDispatchToProps = dispatch => {
   return {
     setOrderInfo: (data) => {
-      dispatch(data)
+      dispatch(createOrderInfo(data))
     }
   }
 }

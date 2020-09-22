@@ -6,7 +6,11 @@ interface StateFace {
   source: string | undefined, // 商品来源
   addressBookId: number | undefined, // 收货地址
   couponId: number | undefined, // 优惠劵id
-  goodsNum: number | undefined // 商品数量
+  goodsNum: number | undefined, // 商品数量
+  productName: string | undefined,
+  productImage: string | undefined,
+  originalPrice: number | undefined,
+  price: number | undefined
 }
 
 const INITIAL_STATE: StateFace = {
@@ -15,7 +19,11 @@ const INITIAL_STATE: StateFace = {
   source: undefined,
   addressBookId: undefined,
   couponId: undefined,
-  goodsNum: undefined
+  goodsNum: undefined,
+  productName: undefined,
+  productImage: undefined,
+  originalPrice: undefined,
+  price: undefined
 }
 
 export default function order (state = INITIAL_STATE, action) {

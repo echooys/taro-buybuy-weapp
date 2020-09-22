@@ -3,6 +3,8 @@ import { Image, ScrollView, Text, View } from '@tarojs/components'
 import Page from '_/components/Page'
 import Icon from '_/components/Icon'
 import { toRouter } from '_/utils/common'
+import { getAddressList } from '_/store/actions/address'
+import { connect } from 'react-redux'
 
 import './index.less'
 
@@ -12,7 +14,13 @@ class OrderCreated extends React.Component<any, any> {
     this.state = {}
   }
 
+  componentDidMount () {
+    this.props.getAddressListHandle()
+  }
+
   render () {
+    const { orderInfo } = this.props
+    console.log(orderInfo)
     return (
       <Page>
         <View className='page-view'>
@@ -47,8 +55,7 @@ class OrderCreated extends React.Component<any, any> {
                   <View className='created-order--product-image'>
                   </View>
                   <View className='created-order--product-content'>
-                    <Text className='created-order--product-title'>果MacBook Pro
-                      13.3英寸2.0GHz四核16G内存 512G/1T固态苹果笔记本电脑…</Text>
+                    <Text className='created-order--product-title'>{orderInfo.productName}</Text>
                     <View className='created-order--product-more'>
                       <Text className='created-order--product-price color'>￥8999.00</Text>
                       <Text className='created-order--product-num'>x1</Text>
@@ -84,7 +91,20 @@ class OrderCreated extends React.Component<any, any> {
       </Page>
     )
   }
-
 }
 
-export default OrderCreated
+const mapStateToProps = state => {
+  return {
+    address: state.address.default,
+    orderInfo: state.order
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    getAddressListHandle: () => {
+      dispatch(getAddressList())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderCreated)
