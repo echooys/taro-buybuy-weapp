@@ -93,6 +93,13 @@
           "id": -1,
           "name": "pages/personal/addressManager/index",
           "pathName": "pages/personal/addressManager/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/order/list/index",
+          "pathName": "pages/order/list/index",
           "scene": null
         }
       ]

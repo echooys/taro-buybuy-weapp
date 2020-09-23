@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-
 import configStore from './store'
-
 import './app.less'
+import './custom-variables.scss'
+// eslint-disable-next-line import/first
+import 'taro-ui/dist/style/index.scss'
 
 const store = configStore()
 

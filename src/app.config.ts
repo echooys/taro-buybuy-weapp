@@ -16,7 +16,8 @@ export default {
     {
       root: 'pages/order/',
       pages: [
-        'created/index'
+        'created/index',
+        'list/index'
       ]
     },
     {
