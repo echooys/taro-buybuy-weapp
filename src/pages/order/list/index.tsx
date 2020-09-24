@@ -4,7 +4,7 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View } from '@tarojs/components'
 import Page from '_/components/Page'
 
-import './index.less'
+import './index.scss'
 
 class OrderList extends React.Component<any, any> {
   constructor (props) {
