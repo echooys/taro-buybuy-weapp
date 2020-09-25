@@ -188,7 +188,10 @@ class MinePage extends Component<PageMineProps, PageMineState> {
               </View>
             </View>
             <View className='struct-wrapper'>
-              <View className='struct-item'>
+              <View
+                className='struct-item'
+                onClick={() => toRouter('/pages/order/list/index')}
+              >
                 <View className='struct-item__content'>
                   <View className='struct-item__left'>
                     <Icon name='xiugaidingdan' size='18' color='#FA6400' />
@@ -199,7 +202,10 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                   </View>
                 </View>
               </View>
-              <View className='struct-item'>
+              <View
+                className='struct-item'
+                onClick={() => toRouter('/pages/personal/profit/index')}
+              >
                 <View className='struct-item__content'>
                   <View className='struct-item__left'>
                     <Icon name='yongjinguanli' size='18' color='#FA6400' />

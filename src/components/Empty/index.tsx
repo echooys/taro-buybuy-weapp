@@ -3,6 +3,12 @@ import { Image, View } from '@tarojs/components'
 
 import './index.less'
 
+import netWorkError from '../../assets/error/network-error-image.png'
+import notAddress from '../../assets/error/not-address-image.png'
+import notOrder from '../../assets/error/not-order-image.png'
+import payError from '../../assets/error/pay-error-image.png'
+import paySuccess from '../../assets/error/pay-success-image.png'
+
 export interface EmptyProps {
   type: string
   describe: string
@@ -17,17 +23,17 @@ class Empty extends React.Component<EmptyProps, EmptyState> {
     super(props)
     this.state = {
       images: {
-        netWorkError: require('../../assets/error/network-error-image.png'),
-        notAddress: require('../../assets/error/not-address-image.png'),
-        notOrder: require('../../assets/error/not-order-image.png'),
-        payError: require('../../assets/error/pay-error-image.png'),
-        paySuccess: require('../../assets/error/pay-success-image.png')
+        netWorkError: netWorkError,
+        notAddress: notAddress,
+        notOrder: notOrder,
+        payError: payError,
+        paySuccess: paySuccess
       }
     }
   }
 
   render (): JSX.Element {
-    const { children, type } = this.props
+    const { children, type, describe } = this.props
     const { images } = this.state
     return (
       <View className='empty'>
@@ -35,6 +41,7 @@ class Empty extends React.Component<EmptyProps, EmptyState> {
           <Image src={images[type]} className='empty-wrapper--images' />
         </View>
         <View className='empty-text'>
+          {describe}
         </View>
         <View className='empty-footer'>
           {children}

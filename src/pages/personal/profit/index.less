@@ -1,0 +1,167 @@
+.profit-header {
+  background-image: linear-gradient(180deg, #FA6400 36%, #FF9100 100%);
+  box-sizing: border-box;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &--timeSlot {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+
+    &_item {
+      width: 180px;
+      height: 56px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background-color: #FF9100;
+      color: #FA6400;
+      border-radius: 28px;
+      margin: 0 30px;
+      font-size: 24px;
+
+      .text {
+        margin-left: 8px;
+      }
+
+      &.active {
+        background-color: #FFE4A4;
+      }
+    }
+  }
+
+  &--balance {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    padding: 40px 0 52px;
+    justify-content: center;
+    align-items: center;
+
+    &_icon {
+      width: 70px;
+      height: 70px;
+    }
+
+    &_text {
+      color: #fff;
+      font-size: 72px;
+      line-height: 1;
+      margin-left: 12px;
+    }
+  }
+
+  &--timeFrame {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding-bottom: 40px;
+
+    &_item {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-right: 20px;
+      font-size: 24px;
+      color: #fff;
+
+      .text {
+        margin-right: 12px;
+      }
+    }
+
+    &_button {
+      width: 90px;
+      height: 44px;
+      font-size: 24px;
+      color: #FA6400;
+      background-color: #FFE4A4;
+      border-radius: 22px;
+      text-align: center;
+      line-height: 44px;
+    }
+  }
+}
+
+.radius-header {
+  width: 100%;
+  height: 40px;
+  background-color: #fff;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  margin-top: -40px;
+}
+
+.profit-list-title {
+  font-size: 24px;
+  color: #6D7278;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 30px;
+  box-sizing: border-box;
+}
+
+.page-content {
+  height: 360px;
+}
+
+.profit-detail-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 40px;
+
+  &__content {
+    flex: 1;
+    height: 150px;
+    box-sizing: border-box;
+    padding: 20px 20px 20px 0;
+    margin-left: 40px;
+    border-bottom: 1px solid #E6E6E6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    align-items: flex-start;
+  }
+
+  &__title {
+    color: #32373D;
+    font-size: 28px;
+  }
+
+  &__time {
+    color: #ABAABA;
+    font-size: 24px;
+    margin-top: 20px;
+  }
+
+  &__price {
+    color: #32373D;
+    font-size: 34px;
+  }
+}

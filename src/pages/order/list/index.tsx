@@ -3,6 +3,7 @@ import * as React from 'react'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View } from '@tarojs/components'
 import Page from '_/components/Page'
+import OrderPane from '_/components/OrderPane'
 
 import './index.scss'
 
@@ -12,11 +13,11 @@ class OrderList extends React.Component<any, any> {
     this.state = {
       current: 0,
       tabList: [
-        { title: '全部' },
-        { title: '待付款' },
-        { title: '待发货' },
-        { title: '已完成' },
-        { title: '已取消' }
+        { title: '全部', key: -1 },
+        { title: '待付款', key: 0 },
+        { title: '待发货', key: 2 },
+        { title: '已完成', key: 3 },
+        { title: '已取消', key: 4 }
       ]
     }
   }
@@ -29,24 +30,19 @@ class OrderList extends React.Component<any, any> {
     const { current, tabList } = this.state
     return (
       <Page>
-        <View>
+        <View className='page-view'>
           <AtTabs
             current={current}
             tabList={tabList}
             onClick={this.handleTabsChange.bind(this)}
           >
-            <AtTabsPane current={current} index={0}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页一的内容</View>
-            </AtTabsPane>
-            <AtTabsPane current={current} index={0}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页一的内容</View>
-            </AtTabsPane>
-            <AtTabsPane current={current} index={0}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页一的内容</View>
-            </AtTabsPane>
-            <AtTabsPane current={current} index={0}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页一的内容</View>
-            </AtTabsPane>
+            {tabList.map((item, key) => {
+              return (
+                <AtTabsPane current={current} index={key} key={key}>
+                  <OrderPane orderStatus={item.key} />
+                </AtTabsPane>
+              )
+            })}
           </AtTabs>
         </View>
       </Page>

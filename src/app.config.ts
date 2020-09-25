@@ -27,7 +27,8 @@ export default {
         'coupon/index',
         'address/index',
         'addressManager/index',
-        'help/index'
+        'help/index',
+        'profit/index'
       ]
     }
   ],
