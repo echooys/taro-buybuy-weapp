@@ -12,7 +12,6 @@ import { get } from '_/utils/storage'
 import { setUserInfo, setUserCenter } from '_/store/actions/user'
 import { toRouter } from '_/utils/common'
 import { updateUserInfo } from '_/api/user'
-
 import './index.less'
 
 interface PageMineProps {
@@ -83,10 +82,8 @@ class MinePage extends Component<PageMineProps, PageMineState> {
           this.props.getUserCenter()
           Taro.getUserInfo().then(({ userInfo }) => {
             this.props.getUserInfo(userInfo)
-            updateUserInfo(userInfo).then(({ result }) => {
-              if (result === 'ok') {
-                Taro.showToast({ icon: 'success', title: '用户信息已同步' })
-              }
+            updateUserInfo(userInfo).then(() => {
+              // TODO: 用户信息已同步
             })
           })
         } else {
@@ -98,10 +95,8 @@ class MinePage extends Component<PageMineProps, PageMineState> {
       this.props.getUserCenter()
       Taro.getUserInfo().then(({ userInfo }) => {
         this.props.getUserInfo(userInfo)
-        updateUserInfo(userInfo).then(({ result }) => {
-          if (result === 'ok') {
-            Taro.showToast({ icon: 'success', title: '用户信息已同步' })
-          }
+        updateUserInfo(userInfo).then(() => {
+          // TODO: 用户信息已同步
         })
       })
     }
@@ -212,13 +207,17 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                     <Text className='struct-item__text'>我的佣金</Text>
                   </View>
                   <View className='struct-item__right'>
-                    <Text className='struct-item__money'>￥{walletInfo.money.toFixed(
-                      2)}元</Text>
+                    <Text className='struct-item__money'>
+                      ￥{walletInfo.money.toFixed(2)}元
+                    </Text>
                     <Icon name='more' size='14' color='#E6E6E6' />
                   </View>
                 </View>
               </View>
-              <View className='struct-item'>
+              <View
+                className='struct-item'
+                onClick={() => toRouter('/pages/personal/coupon/index')}
+              >
                 <View className='struct-item__content'>
                   <View className='struct-item__left'>
                     <Icon name='youhuiquan' size='16' color='#FA6400' />
@@ -230,7 +229,10 @@ class MinePage extends Component<PageMineProps, PageMineState> {
                   </View>
                 </View>
               </View>
-              <View className='struct-item'>
+              <View
+                className='struct-item'
+                onClick={() => toRouter('/pages/personal/help/index')}
+              >
                 <View className='struct-item__content'>
                   <View className='struct-item__left'>
                     <Icon name='shezhi' size='18' color='#FA6400' />

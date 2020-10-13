@@ -44,3 +44,29 @@ export function updateUserInfo (data) {
     data
   })
 }
+
+/**
+ * 获取用户钱包流水
+ * @param startTime 开始时间
+ * @param endTime 结束时间
+ * @param page 页码
+ * @param size 条数
+ */
+export function getUserWalletList (startTime, endTime, page, size) {
+  return http(({
+    url: `/user/center/wallet/${startTime}/${endTime}/${page}/${size}`,
+    method: 'GET'
+  }))
+}
+
+/**
+ * 我的优惠劵
+ * @param page 页码
+ * @param size 条数
+ */
+export function getCouponList (page, size) {
+  return http({
+    url: `/user/center/coupon/${page}/${size}/0`,
+    method: 'GET'
+  })
+}
